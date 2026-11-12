@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TradeDesk</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--bg2:#0a0a0a;--p:#0f0f0f;--b:#1c1c1c;--b2:#2b2b2b;--t:#f4f4f5;--m:#8a8a8f;--m2:#b4b4b9;--c:#6f9bff;--c2:#3b5fd0;--bl:#6f9bff;--g:#45c9a0;--r:#f0707a;--a:#d9a441;--serif:'Instrument Serif',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font:14px/1.5 Geist,system-ui,sans-serif;font-variant-numeric:tabular-nums;min-height:100vh}
+:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 32px;height:64px;border-bottom:1px solid var(--b)}
+.logo{font:400 27px var(--serif)}.pill{font-size:13px;color:var(--m2)}
+nav{display:flex;gap:2px;background:var(--bg2);border:1px solid var(--b);border-radius:10px;padding:3px}
+nav button{background:none;border:0;border-radius:7px;padding:7px 18px;color:var(--m2);font:500 13px Geist;cursor:pointer}nav button:hover{color:var(--t)}nav button.on{background:var(--b2);color:var(--t)}
+main{max-width:1160px;margin:0 auto;padding:44px 32px 90px}.tab{display:none}.tab.on{display:block}
+.h{font:400 24px var(--serif);margin-bottom:18px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:56px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}.f label,.o label{font-size:12px;color:var(--m2)}
+input,select,textarea{background:var(--bg2);border:1px solid var(--b2);border-radius:9px;padding:11px 13px;color:var(--t);font:14px Geist;outline:0;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--c)}textarea{resize:vertical;min-height:64px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:var(--t);color:var(--bg);border:0;border-radius:9px;padding:10px 18px;font:500 13px Geist;cursor:pointer}.btn:hover{background:#fff}
+.btn.gh{background:none;border:1px solid var(--b2);color:var(--m2)}.btn.gh:hover{color:var(--t);border-color:var(--m)}.btn.dg{background:none;border:1px solid #5a2a33;color:var(--r)}.btn.sm{padding:7px 13px;font-size:12px}
+.chips{display:flex;gap:8px;margin:2px 0 18px}.chip{background:none;border:1px solid var(--b2);color:var(--m2);border-radius:20px;padding:5px 15px;font:13px Geist;cursor:pointer}.chip:hover{border-color:var(--c);color:var(--t)}
+.o{display:flex;flex-direction:column;gap:4px}.o .v{font:500 22px Geist}
+.o.big{grid-column:1/-1;padding-bottom:24px;border-bottom:1px solid var(--b)}.o .v.big{font:400 76px/1 var(--serif)}
+small{font-size:12px;color:var(--m)}.c,.a,.bl{color:var(--t)}.g{color:var(--g)}.r{color:var(--r)}.mut{color:var(--m);padding:28px 0;text-align:center}
+.note{margin-top:22px;font-size:13px;color:var(--m2);line-height:1.6;padding-left:14px;border-left:2px solid var(--b2)}
+.warn,.err{margin-bottom:16px;font-size:13px;border-radius:9px;padding:11px 14px;color:#e6c47a;background:rgba(217,164,65,.08);border:1px solid rgba(217,164,65,.25)}.err{color:var(--r);background:rgba(240,112,122,.08);border-color:rgba(240,112,122,.3)}
+#calc .g2>.card:last-child{border-left:1px solid var(--b);padding-left:56px}
+.tb{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:26px;flex-wrap:wrap}.tb select{width:auto;padding:8px 12px}
+.w{overflow-x:auto}table{width:100%;border-collapse:collapse}th{padding:10px 16px 10px 0;text-align:left;font:500 12px Geist;color:var(--m);border-bottom:1px solid var(--b);white-space:nowrap}
+td{padding:14px 16px 14px 0;border-bottom:1px solid var(--b);font-size:13px;white-space:nowrap}tbody tr{cursor:pointer}tbody tr:hover td{background:rgba(255,255,255,.02)}
+.bd{padding:2px 9px;border-radius:20px;font:500 11px Geist}.bd.win{background:rgba(69,201,160,.12);color:var(--g)}.bd.loss{background:rgba(240,112,122,.12);color:var(--r)}.bd.be{background:rgba(217,164,65,.12);color:var(--a)}.bd.open{background:rgba(111,155,255,.12);color:var(--c)}
+.sum{font:400 36px/1.25 var(--serif);max-width:860px;margin-bottom:38px}
+.strip,.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:26px 28px;padding-top:26px;border-top:1px solid var(--b)}
+.k span{font-size:12px;color:var(--m2);display:block}.k b{font:500 20px Geist;display:block;margin:4px 0 2px}.k small{display:block}
+.sec{border-top:1px solid var(--b);padding-top:26px;margin-top:46px}.g2>.sec{margin-top:0}#ds .g2{margin-top:46px}.cw{position:relative;width:100%}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cal div{border-radius:7px;padding:6px 7px;min-height:50px;font-size:11px;color:var(--m);background:rgba(255,255,255,.025)}.cal div b{display:block;font:500 12px Geist;color:var(--t);margin-top:3px}.cal .dh{background:none;min-height:0;text-align:center;padding:0}
+.tg{display:inline-flex;border:1px solid var(--b2);border-radius:9px;padding:2px}.tg button{background:none;border:0;border-radius:7px;color:var(--m2);padding:6px 14px;font:500 12px Geist;cursor:pointer}.tg button.on{background:var(--b2);color:var(--t)}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;align-items:center;justify-content:center;padding:20px}.ov.open{display:flex}
+.md{background:var(--p);border:1px solid var(--b2);border-radius:14px;padding:28px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto}.md h3{font:400 28px var(--serif);margin-bottom:20px}
+.stars span{font-size:24px;color:var(--b2);cursor:pointer}.stars span.on{color:var(--a)}#lssp{max-width:100%;max-height:150px;border-radius:8px;margin-top:8px;display:none}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--p);border:1px solid var(--g);color:var(--g);padding:12px 18px;border-radius:9px;opacity:0;transition:.25s;pointer-events:none;z-index:99}#toast.show{opacity:1}#toast.bad{border-color:var(--r);color:var(--r)}
+@media(max-width:860px){.g2{grid-template-columns:1fr;gap:34px}#calc .g2>.card:last-child{border-left:0;padding-left:0}.sum{font-size:28px}}
+@media(max-width:600px){header{flex-wrap:wrap;height:auto;padding:12px 16px}main{padding:26px 16px 70px}.grid{grid-template-columns:1fr}.o .v.big{font-size:56px}}
+</style></head><body>
+<header><div class="logo">TradeDesk</div><nav><button class="on" data-t="calc">Calculator</button><button data-t="jour">Journal</button><button data-t="dash">Dashboard</button></nav><div class="hr"><span class="pill" id="hp">Loading…</span></div></header>
+
+<main>
+<section id="calc" class="tab on"><div class="g2">
+<div class="card"><div class="h">Size a trade</div>
+<div class="f"><label>Pair (optional)</label><input id="cp" placeholder="e.g. QI/USDT"></div>
+<div class="r3"><div class="f"><label>Entry</label><input id="ce" type="number" step="any" oninput="calc()" autofocus></div><div class="f"><label>Stop Loss</label><input id="cs" type="number" step="any" oninput="calc()"></div><div class="f"><label>Take Profit</label><input id="ct" type="number" step="any" oninput="calc()"></div></div>
+<div class="r2"><div class="f"><label>Risk ($)</label><input id="cr" type="number" step="any" placeholder="e.g. 3" oninput="calc()"></div><div class="f"><label>Fee % per side</label><input id="cf" type="number" step="any" oninput="calc()"></div></div>
+<div class="chips"><button class="chip" onclick="$('cr').value=3;calc()">$3</button><button class="chip" onclick="$('cr').value=5;calc()">$5</button><button class="chip" onclick="$('cr').value=10;calc()">$10</button><button class="chip" onclick="$('cr').value=20;calc()">$20</button></div>
+<label style="font-size:12px;color:var(--m2);display:flex;gap:8px;align-items:center"><input id="ci" type="checkbox" style="width:auto" onchange="calc()">Include fees in risk</label></div>
+<div class="card"><div class="h">Your plan</div><div id="out"></div></div></div></section>
+<section id="jour" class="tab"><div class="tb"><div><b id="jn"></b> <small>· click a row to edit</small></div><div style="display:flex;gap:8px"><select id="jsel" onchange="jp=this.value;journal()"></select><button class="btn sm" onclick="openLog(null)">Log trade</button></div></div><div class="card" style="padding:0"><div class="w" id="jt"></div></div></section>
+<section id="dash" class="tab"><div class="tb"><select id="dsel" onchange="dp=this.value;cm=null;dash()"></select><div style="display:flex;gap:8px;align-items:center"><div class="tg"><button id="bu" onclick="setM('usd')">$ value</button><button id="bp" onclick="setM('pct')">% return</button></div><button class="btn sm" onclick="newPhase()">New phase</button></div></div><div id="ds"></div></section>
+</main>
+<div class="ov" id="lm"><div class="md"><h3 id="ltitle">Log Trade</h3>
+<div class="r2"><div class="f"><label>Phase</label><select id="lp"></select></div><div class="f"><label>Pair</label><input id="lpair" placeholder="QI/USDT"></div></div>
+<div class="r3"><div class="f"><label>Entry</label><input id="le" type="number" step="any"></div><div class="f"><label>Exit (blank = open)</label><input id="lx" type="number" step="any"></div><div class="f"><label>Amount deployed ($)</label><input id="la" type="number" step="any"></div></div>
+<div class="r3"><div class="f"><label>Stop Loss</label><input id="ls" type="number" step="any"></div><div class="f"><label>Take Profit</label><input id="lt" type="number" step="any"></div><div class="f"><label>Fee % per side</label><input id="lf" type="number" step="any"></div></div>
+<div class="f"><label>Confidence</label><div class="stars" id="lst"></div></div>
+<div class="f"><label>Setup</label><select id="ltag"><option value="">—</option><option>Trend Continuation</option><option>Breakout</option><option>Support Bounce</option><option>Range Trade</option><option>EMA Bounce</option><option>News Play</option><option>Other</option></select></div>
+<div class="r2"><div class="f"><label>Closed on</label><input id="lcl" type="date"></div><div class="f"><label>Mistake / emotion</label><select id="lmk"><option value="">—</option><option>Clean trade</option><option>FOMO</option><option>Revenge</option><option>Early exit</option><option>Moved stop</option><option>Oversized</option><option>No setup</option></select></div></div>
+<div class="f"><label>Thesis</label><textarea id="lth" placeholder="Why this trade?"></textarea></div><div class="f"><label>Notes / lessons</label><textarea id="lnote"></textarea></div>
+<div class="f"><label>Chart screenshot</label><input id="lss" type="file" accept="image/*"><img id="lssp"></div>
+<div style="display:flex;gap:10px;margin-top:6px"><button class="btn" onclick="save()">Save Trade</button><button class="btn gh" onclick="$('lm').classList.remove('open')">Cancel</button><button class="btn dg" id="ldel" onclick="del()" style="margin-left:auto">Delete</button></div></div></div>
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const U='https://jtnxvoewdxiphipzpjtk.supabase.co',K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0bnh2b2V3ZHhpcGhpcHpwanRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1MTkwMTEsImV4cCI6MjEwNjA5NTAxMX0.V_zlt5bF4ziszuqXgl7J17U2wKbvrwMm-_b_A0ryjrA';
+const $=id=>document.getElementById(id),n=id=>parseFloat($(id).value)||0;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';');
+const usd=x=>(x<0?'-$':'$')+Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const px=x=>x>=1?x.toFixed(4):Number(x).toPrecision(4),cl=x=>x>0?'g':x<0?'r':'';
+let P=[],T=[],act=null,jp='',dp='',C=null,edit=null,ss=null,star=0;
+async function api(path,o={}){const r=await fetch(U+'/rest/v1/'+path,{...o,headers:{apikey:K,Authorization:'Bearer '+K,'Content-Type':'application/json',Prefer:'return=representation'}});const t=await r.text();if(!r.ok)throw new Error(t.slice(0,250));return t?JSON.parse(t):[]}
+function toast(m,bad){const e=$('toast');e.textContent=m;e.className='show'+(bad?' bad':'');setTimeout(()=>e.className='',3000)}
+const pnlOf=p=>T.filter(t=>t.phase_id==p.id&&t.pnl_usd!=null).reduce((a,t)=>a+Number(t.pnl_usd),0);
+const capOf=p=>p?Number(p.start_capital)+pnlOf(p):0;
+async function load(reset){try{P=await api('phases?order=started_at.asc');if(!P.length){await api('phases',{method:'POST',body:JSON.stringify({name:'Phase 1',start_capital:0})});P=await api('phases?order=started_at.asc')}
+T=await api('trades?order=created_at.desc&limit=1000');act=[...P].reverse().find(p=>p.is_active)||P[P.length-1];if(reset||!jp)jp=dp=act.id;render()}
+catch(e){$('hp').textContent='Offline';['jt','ds'].forEach(i=>$(i).innerHTML='<div class="err" style="margin:16px">Could not load data: '+esc(e.message)+'</div>')}}
+function render(){$('hp').textContent=act.name+' · '+usd(capOf(act));calc();journal();dash()}
+function calc(){localStorage.fee=$('cf').value;localStorage.inc=$('ci').checked?1:0;C=null;const o=$('out');
+const e=n('ce'),sl=n('cs'),tp=n('ct'),r=n('cr'),fee=n('cf'),f=$('ci').checked?2*fee/100:0;
+if(!e||!sl||!r){o.innerHTML='<div class="mut">Enter entry, stop loss and risk to size your trade.</div>';return}
+if(sl>=e){o.innerHTML='<div class="err">Stop loss must be below entry (spot long).</div>';return}
+const sp=(e-sl)/e,cap=capOf(act),z=r/sp;let size=r/(sp+f),risk=r;const capped=cap>0&&size>cap;if(capped){size=cap;risk=size*(sp+f)}
+const u=size/e,fees=size*f,pr=tp>e?u*(tp-e)-fees:0,cell=(l,v,c,s)=>`<div class="o ${c==='big'?'big':''}"><label>${l}</label><div class="v ${c==='big'?'c big':c}">${v}</div>${s?'<small>'+s+'</small>':''}</div>`;
+C={e,sl,tp,size};
+o.innerHTML=(capped?`<div class="warn">Not enough capital: capped at ${usd(cap)}, so your real risk is ${usd(risk)}.</div>`:'')+'<div class="grid">'
++cell('Deploy (USDT)',usd(size),'big',u.toLocaleString('en-US',{maximumFractionDigits:4})+' units')
++cell('Loss at SL','-'+usd(risk).replace('$','$'),'r','incl. fees if enabled')
++cell('Profit at TP',pr?'+'+usd(pr):'—','g',cap&&pr?'+'+(pr/cap*100).toFixed(2)+'% of capital':'set TP')
++cell('R:R',pr?'1 : '+(pr/risk).toFixed(2):'—','bl')+cell('% of capital',cap?(size/cap*100).toFixed(1)+'%':'—','a')
++cell('SL distance',(sp*100).toFixed(2)+'%','')+cell('TP distance',tp>e?((tp-e)/e*100).toFixed(2)+'%':'—','')+'</div>'
++`<div class="note">${f?`Fees at ${fee}% per side reduce size by ${usd(z-size)}. Zero-fee size would be ${usd(z)}.`:`Fees not included. Size = risk ÷ SL distance.`}</div>`
++'<div style="margin-top:16px"><button class="btn" onclick="openLog(null,C)">Log this trade</button></div>'}
+function openLog(t,c){edit=t?t.id:null;ss=t?t.screenshot_url:null;star=t?t.confidence||0:0;
+$('lp').innerHTML=P.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');$('lp').value=(t&&t.phase_id)||act.id;
+$('lpair').value=t?t.pair:$('cp').value;$('le').value=t?t.entry_price:c?c.e:'';$('lx').value=t&&t.exit_price||'';$('la').value=t?t.position_size:c?c.size.toFixed(2):'';
+$('ls').value=t?t.stop_loss||'':c?c.sl:'';$('lt').value=t?t.take_profit||'':c&&c.tp?c.tp:'';$('lf').value=$('cf').value;
+$('ltag').value=t&&t.setup_tag||'';$('lcl').value=t&&t.closed_on||'';$('lmk').value=t&&t.mistake_tag||'';$('lth').value=t&&t.thesis||'';$('lnote').value=t&&t.notes||'';
+$('lssp').src=ss||'';$('lssp').style.display=ss?'block':'none';$('lss').value='';stars();$('ldel').style.display=t?'':'none';$('ltitle').textContent=t?'Edit Trade':'Log Trade';$('lm').classList.add('open')}
+function stars(){$('lst').innerHTML=[1,2,3,4,5].map(i=>`<span class="${i<=star?'on':''}" onclick="star=${i};stars()">★</span>`).join('')}
+$('lss').onchange=ev=>{const f=ev.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{const k=Math.min(1,900/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);ss=c.toDataURL('image/jpeg',.7);$('lssp').src=ss;$('lssp').style.display='block'};im.src=URL.createObjectURL(f)};
+async function save(){const e=n('le'),x=n('lx')||null,a=n('la'),sl=n('ls')||null,tp=n('lt')||null,f=2*n('lf')/100,pair=$('lpair').value.trim().toUpperCase();
+if(!pair||!e||!a)return toast('Pair, entry and amount are required',1);if(sl&&sl>=e)return toast('Stop loss must be below entry',1);
+const u=a/e;let pnl=null,pct=null,res='open';if(x){pnl=u*(x-e)-a*f;pct=pnl/a*100;res=pnl>0.05?'win':pnl<-0.05?'loss':'be'}
+const body={pair,direction:'long',trade_mode:'spot',leverage:1,phase_id:$('lp').value,entry_price:e,exit_price:x,position_size:a,stop_loss:sl,take_profit:tp,risk_usd:sl?u*(e-sl)+a*f:null,pnl_usd:pnl,pnl_pct:pct,rr_ratio:sl&&tp?(tp-e)/(e-sl):null,result:res,confidence:star||null,setup_tag:$('ltag').value||null,closed_on:x?($('lcl').value||new Date().toLocaleDateString('en-CA')):null,mistake_tag:$('lmk').value||null,thesis:$('lth').value||null,notes:$('lnote').value||null,screenshot_url:ss||null};
+try{await api(edit?'trades?id=eq.'+edit:'trades',{method:edit?'PATCH':'POST',body:JSON.stringify(body)});$('lm').classList.remove('open');toast('Trade saved ✓');await load()}catch(er){toast(er.message,1)}}
+async function del(){if(!confirm('Delete this trade?'))return;try{await api('trades?id=eq.'+edit,{method:'DELETE'});$('lm').classList.remove('open');await load()}catch(er){toast(er.message,1)}}
+async function newPhase(){const nm=prompt('New phase name','Phase '+(P.length+1));if(!nm)return;const c=parseFloat(prompt('Starting capital (USDT)',capOf(act).toFixed(2)));if(isNaN(c))return;
+try{await api('phases?is_active=eq.true',{method:'PATCH',body:JSON.stringify({is_active:false,ended_at:new Date().toISOString()})});await api('phases',{method:'POST',body:JSON.stringify({name:nm,start_capital:c})});toast('Started '+nm);await load(true)}catch(er){toast(er.message,1)}}
+async function setActive(id){try{await api('phases?id=neq.'+id,{method:'PATCH',body:JSON.stringify({is_active:false})});await api('phases?id=eq.'+id,{method:'PATCH',body:JSON.stringify({is_active:true,ended_at:null})});await load(true)}catch(er){toast(er.message,1)}}
+async function delPhase(id){if(T.some(t=>t.phase_id==id))return toast('This phase has trades, so it can\'t be deleted',1);if(!confirm('Delete this empty phase?'))return;try{await api('phases?id=eq.'+id,{method:'DELETE'});await load(true)}catch(er){toast(er.message,1)}}
+async function editPhase(id){const p=P.find(x=>x.id==id),nm=prompt('Phase name',p.name);if(!nm)return;const c=parseFloat(prompt('Starting capital (USDT)',p.start_capital));if(isNaN(c))return;
+try{await api('phases?id=eq.'+id,{method:'PATCH',body:JSON.stringify({name:nm,start_capital:c})});await load()}catch(er){toast(er.message,1)}}
+const opts=(v)=>'<option value="all">All phases (Overall)</option>'+P.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+function journal(){const s=$('jsel');s.innerHTML=opts();s.value=jp;const L=T.filter(t=>jp=='all'||t.phase_id==jp);$('jn').textContent=L.length+' trades';
+$('jt').innerHTML=L.length?`<table><thead><tr><th>Date</th><th>Pair</th><th>Entry</th><th>Exit</th><th>Size</th><th>Risk</th><th>PnL</th><th>PnL %</th><th>R:R</th><th>Conf</th><th>Setup</th><th>Result</th></tr></thead><tbody>`+L.map(t=>`<tr onclick="openLog(T.find(x=>x.id=='${t.id}'))"><td style="color:var(--m)">${new Date(t.created_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</td><td><b>${esc(t.pair)}</b></td><td>$${px(+t.entry_price)}</td><td>${t.exit_price?'$'+px(+t.exit_price):'—'}</td><td>${t.position_size?'$'+(+t.position_size).toFixed(0):'—'}</td><td class="r">${t.risk_usd?'-$'+(+t.risk_usd).toFixed(2):'—'}</td><td class="${cl(t.pnl_usd)}">${t.pnl_usd!=null?usd(+t.pnl_usd):'—'}</td><td class="${cl(t.pnl_pct)}">${t.pnl_pct!=null?(+t.pnl_pct).toFixed(2)+'%':'—'}</td><td class="bl">${t.rr_ratio?'1:'+(+t.rr_ratio).toFixed(2):'—'}</td><td class="a">${t.confidence?'★'.repeat(t.confidence):'—'}</td><td style="color:var(--m2)">${esc(t.setup_tag)||'—'}</td><td>${t.result?`<span class="bd ${t.result}">${t.result.toUpperCase()}</span>`:'—'}</td></tr>`).join('')+'</tbody></table>':'<div class="mut">No trades in this phase yet.</div>'}
+let dm='usd',SC=0,CL=[],CH=[],cy=0,cm=null;
+const G='#45c9a0',RD='#f0707a',GR='rgba(255,255,255,.05)',PC=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#6250d6','#e34948','#008300'];
+const dk=t=>t.closed_on||new Date(t.created_at).toLocaleDateString('en-CA'),byT=(a,b)=>new Date(dk(a))-new Date(dk(b))||new Date(a.created_at)-new Date(b.created_at);
+const fv=(v,d=2)=>dm=='usd'?usd(v):SC?(v<0?'-':'')+Math.abs(v/SC*100).toFixed(d)+'%':'—',fx=v=>dm=='usd'?'$'+v:v+'%',sum=a=>a.reduce((x,y)=>x+y,0);
+function setM(x){dm=x;dash()}
+function cmv(d){cm+=d;if(cm<0){cm=11;cy--}if(cm>11){cm=0;cy++}cal()}
+function st(L){const c=L.filter(t=>t.pnl_usd!=null),v=c.map(t=>+t.pnl_usd),w=v.filter(x=>x>0),l=v.filter(x=>x<0),gw=sum(w),gl=Math.abs(sum(l)),R=c.filter(t=>+t.risk_usd>0).map(t=>t.pnl_usd/t.risk_usd);
+return{c,n:c.length,w:w.length,l:l.length,pnl:sum(v),wr:c.length?w.length/c.length*100:0,pf:gl?gw/gl:null,exp:c.length?sum(v)/c.length:0,R,avgR:R.length?sum(R)/R.length:null,payoff:w.length&&l.length?(gw/w.length)/(gl/l.length):null}}
+function grp(f){const m={};CL.forEach(t=>{const k=f(t);if(!k)return;m[k]=m[k]||{n:0,w:0,p:0};m[k].n++;m[k].p+=+t.pnl_usd;if(t.result=='win')m[k].w++});return m}
+function bar(id,m,keys){keys=(keys||Object.keys(m).sort((a,b)=>m[b].p-m[a].p)).filter(k=>m[k]).slice(0,8);const el=$(id);if(!keys.length){el.parentNode.innerHTML='<div class="mut">Not enough data yet.</div>';return}
+el.parentNode.style.height=(keys.length*34+60)+'px';const d=keys.map(k=>dm=='usd'?m[k].p:SC?m[k].p/SC*100:0);
+CH.push(new Chart(el,{type:'bar',data:{labels:keys.map(k=>k+' · '+Math.round(m[k].w/m[k].n*100)+'% ('+m[k].n+')'),datasets:[{data:d,backgroundColor:d.map(x=>x>=0?G:RD),borderRadius:4,maxBarThickness:22}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GR},ticks:{callback:fx}},y:{grid:{display:false}}}}}))}
+function line(id,data,col,fill,extra){CH.push(new Chart($(id),{type:'line',data:{labels:data.map((_,i)=>i),datasets:[{data,borderColor:col,backgroundColor:fill,fill:true,borderWidth:2,pointRadius:0,tension:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:10}},y:{grid:{color:GR},ticks:{callback:fx},...extra}}}}))}
+function cal(){const f=new Date(cy,cm,1),nd=new Date(cy,cm+1,0).getDate(),off=(f.getDay()+6)%7,m={};let tot=0;CL.forEach(t=>{const k=dk(t);m[k]=(m[k]||0)+ +t.pnl_usd});
+const pre=cy+'-'+String(cm+1).padStart(2,'0')+'-',mx=Math.max(1,...Object.keys(m).filter(k=>k.startsWith(pre)).map(k=>Math.abs(m[k])));
+let h='MTWTFSS'.split('').map(d=>`<div class="dh">${d}</div>`).join('')+'<div style="background:none"></div>'.repeat(off);
+for(let d=1;d<=nd;d++){const v=m[pre+String(d).padStart(2,'0')];if(v!=null)tot+=v;const a=v?0.15+0.6*Math.abs(v)/mx:0;h+=`<div style="${v?'background:rgba('+(v>0?'69,201,160':'240,112,122')+','+a.toFixed(2)+')':''}">${d}<b>${v!=null?fv(v,1):'—'}</b></div>`}
+$('cal').innerHTML=h;$('calh').textContent=f.toLocaleString('en',{month:'long',year:'numeric'})+' · '+fv(tot)}
+function dash(){try{CH.forEach(c=>c.destroy());CH=[];Chart.defaults.color='#8a8a8f';Chart.defaults.font.family='Geist, sans-serif';Chart.defaults.font.size=11;
+const s=$('dsel');s.innerHTML=opts();s.value=dp;$('bu').className=dm=='usd'?'on':'';$('bp').className=dm=='pct'?'on':'';
+const ps=dp=='all'?P:P.filter(p=>p.id==dp);SC=ps.reduce((a,p)=>a+Number(p.start_capital),0);
+const L=T.filter(t=>dp=='all'||t.phase_id==dp),S=st(L);CL=S.c.slice().sort(byT);
+const pc=P.map(p=>{const q=st(T.filter(t=>t.phase_id==p.id)),sc=+p.start_capital;return`<tr style="cursor:default"><td><b>${esc(p.name)}</b> ${p.id==act.id?'<span class="bd open">Active</span>':''}</td><td>${usd(sc)}</td><td>${usd(capOf(p))}</td><td class="${cl(q.pnl)}">${dm=='usd'?usd(q.pnl):sc?(q.pnl/sc*100).toFixed(1)+'%':'—'}</td><td>${q.n}</td><td>${q.wr.toFixed(0)}%</td><td>${q.pf!=null?q.pf.toFixed(2):'—'}</td><td class="bl">${q.avgR!=null?q.avgR.toFixed(2)+'R':'—'}</td><td style="white-space:nowrap"><button class="btn gh sm" onclick="editPhase('${p.id}')">Edit</button> ${p.id!=act.id?`<button class="btn gh sm" onclick="setActive('${p.id}')">Make active</button> `:''}${q.n==0?`<button class="btn dg sm" onclick="delPhase('${p.id}')">Delete</button>`:''}</td></tr>`}).join('');
+const ptable=`<div class="sec"><div class="h">Phases</div><div class="w"><table><thead><tr><th>Phase</th><th>Start</th><th>Now</th><th>PnL</th><th>Trades</th><th>Win</th><th>PF</th><th>Avg R</th><th></th></tr></thead><tbody>${pc}</tbody></table></div></div>`;
+if(!CL.length){$('ds').innerHTML='<div class="mut">No closed trades in this view yet. Log a trade with an exit price to light this up.</div>'+ptable;return}
+const eq=[0],pk=[0],dd=[0],dpc=[0];CL.forEach((t,i)=>{eq.push(eq[i]+ +t.pnl_usd);pk.push(Math.max(pk[i],eq[i+1]));dd.push(eq[i+1]-pk[i+1]);dpc.push(SC?(eq[i+1]-pk[i+1])/(SC+pk[i+1])*100:0)});
+const mdd=Math.min(...(dm=='usd'?dd:dpc)),best=CL.reduce((a,b)=>+a.pnl_usd>+b.pnl_usd?a:b),worst=CL.reduce((a,b)=>+a.pnl_usd<+b.pnl_usd?a:b);
+let bs=0,run=0;CL.forEach(t=>{if(t.result=='win'){run++;bs=Math.max(bs,run)}else run=0});let cur=0;const ct=CL[CL.length-1].result;for(let i=CL.length-1;i>=0&&CL[i].result==ct;i--)cur++;
+const k=(l,v,c,sub)=>`<div class="k"><span>${l}</span><b class="${c||''}">${v}</b>${sub?'<small>'+sub+'</small>':''}</div>`;
+const tiles=k('Win rate',S.wr.toFixed(0)+'%','',S.w+' wins, '+S.l+' losses')+k('Profit factor',S.pf!=null?S.pf.toFixed(2):'—','','gross win ÷ gross loss')+k('Expectancy',fv(S.exp),cl(S.exp),'per trade')+k('Average R',S.avgR!=null?S.avgR.toFixed(2)+'R':'—','','PnL ÷ risk taken')+k('Max drawdown',fv(mdd),'r','peak to trough')+k('Payoff ratio',S.payoff?S.payoff.toFixed(2):'—','','avg win ÷ avg loss')+k('Best trade',fv(+best.pnl_usd),'g',esc(best.pair))+k('Worst trade',fv(+worst.pnl_usd),'r',esc(worst.pair))+k('Streak',(ct=='win'?'W':ct=='loss'?'L':'—')+cur,ct=='win'?'g':'r','best win streak '+bs);
+const sent=(dp=='all'?'Across every phase':esc((P.find(p=>p.id==dp)||{name:'This phase'}).name))+`, you're ${S.pnl>=0?'up':'down'} ${fv(Math.abs(S.pnl))} over ${S.n} closed trade${S.n==1?'':'s'}. ${S.wr.toFixed(0)}% of them won${S.pf!=null?' and the winners earned '+S.pf.toFixed(1)+'x what the losers cost':''}. The deepest drawdown was ${fv(Math.abs(mdd))}${L.length>S.n?', with '+(L.length-S.n)+' still open':''}.`;
+const rk=S.c.filter(t=>+t.risk_usd>0),rp=rk.map(t=>{const p=P.find(x=>x.id==t.phase_id);return p&&+p.start_capital?t.risk_usd/p.start_capital*100:null}).filter(x=>x!=null),avgRp=rp.length?sum(rp)/rp.length:null;
+const af=CL.filter((t,i)=>i&&CL[i-1].result=='loss'),wa=af.length>=3?af.filter(t=>t.result=='win').length/af.length*100:null,pl=S.c.filter(t=>+t.rr_ratio>0).map(t=>+t.rr_ratio);
+const disc=k('Avg risk per trade',avgRp!=null?avgRp.toFixed(1)+'%':'—',avgRp>5?'r':'g','of phase starting capital')+k('Risked over 5%',rp.filter(x=>x>5).length,'a','trades')+k('No stop loss set',S.c.filter(t=>!(+t.risk_usd>0)).length,'a','trades, so no R')+k('Win rate after a loss',wa!=null?wa.toFixed(0)+'%':'—',wa!=null&&wa<S.wr-10?'r':'c','baseline '+S.wr.toFixed(0)+'%')+k('Planned R:R',pl.length?'1:'+(sum(pl)/pl.length).toFixed(2):'—','bl','avg across trades')+k('Realized R',S.avgR!=null?S.avgR.toFixed(2)+'R':'—','c','compare to planned');
+const cd=(t,id,h)=>`<div class="sec"><div class="h">${t}</div><div class="cw" style="height:${h||200}px"><canvas id="${id}"></canvas></div></div>`;
+$('ds').innerHTML=`<h1 class="sum">${sent}</h1><div class="strip">${tiles}</div>
+<div class="sec"><div class="h">Equity curve</div><div class="cw" style="height:230px"><canvas id="c1"></canvas></div><div class="h" style="margin-top:18px">Drawdown from peak</div><div class="cw" style="height:110px"><canvas id="c2"></canvas></div></div>
+<div class="g2"><div class="sec"><div class="tb" style="margin-bottom:10px"><b id="calh"></b><div><button class="btn gh sm" onclick="cmv(-1)">◀</button> <button class="btn gh sm" onclick="cmv(1)">▶</button></div></div><div class="cal" id="cal"></div></div>${cd('R-multiple distribution','c3',230)}</div>
+<div class="g2">${cd('By setup','c4')}${cd('By confidence','c5')}</div>
+<div class="g2">${cd('By pair','c6')}${cd('By mistake / emotion','c7')}</div>
+<div class="g2">${cd('By day of week (closed on)','c8')}${cd('Phase overlay','c9',260)}</div>
+<div class="sec"><div class="h">Risk discipline</div><div class="kg">${disc}</div></div>${ptable}`;
+line('c1',dm=='usd'?eq:eq.map(v=>SC?v/SC*100:0),'#6f9bff','rgba(111,155,255,.10)');line('c2',dm=='usd'?dd:dpc,RD,'rgba(240,112,122,.12)',{max:0});
+if(cm==null){const d=new Date(dk(CL[CL.length-1])+'T12:00:00');cy=d.getFullYear();cm=d.getMonth()}cal();
+const bn=['< -1R','-1 to 0R','0 to 1R','1 to 2R','2 to 3R','3R+'],cn=[0,0,0,0,0,0];S.R.forEach(r=>cn[r<-1?0:r<0?1:r<1?2:r<2?3:r<3?4:5]++);
+CH.push(new Chart($('c3'),{type:'bar',data:{labels:bn,datasets:[{data:cn,backgroundColor:[RD,RD,G,G,G,G],borderRadius:4,maxBarThickness:28}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:GR},ticks:{precision:0}}}}}));
+bar('c4',grp(t=>t.setup_tag));bar('c5',grp(t=>t.confidence?'★'.repeat(t.confidence):null),['★','★★','★★★','★★★★','★★★★★']);bar('c6',grp(t=>t.pair));bar('c7',grp(t=>t.mistake_tag));
+const DW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];bar('c8',grp(t=>DW[new Date(dk(t)+'T12:00:00').getDay()]),['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
+if(P.length<2){$('c9').parentNode.innerHTML='<div class="mut">Start a second phase to compare phases side by side.</div>'}else{
+const ds=P.map((p,i)=>{let c=0;const a=[0];T.filter(t=>t.phase_id==p.id&&t.pnl_usd!=null).sort(byT).forEach(t=>{c+=+t.pnl_usd;a.push(dm=='usd'?c:+p.start_capital?c/p.start_capital*100:0)});return{label:p.name,data:a,borderColor:PC[i%8],borderWidth:2,pointRadius:0,tension:0}}),mx=Math.max(...ds.map(d=>d.data.length));
+CH.push(new Chart($('c9'),{type:'line',data:{labels:Array.from({length:mx},(_,i)=>i),datasets:ds},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},title:{display:true,text:'trade #'}},y:{grid:{color:GR},ticks:{callback:fx}}}}}))}
+}catch(e){$('ds').innerHTML='<div class="err">Dashboard error: '+esc(e.message)+'</div>'}}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button,.tab').forEach(x=>x.classList.remove('on'));b.classList.add('on');$(b.dataset.t).classList.add('on')});
+$('cf').value=localStorage.fee??'0.05';$('ci').checked=localStorage.inc!=='0';calc();load(true);
+</script></body></html>
